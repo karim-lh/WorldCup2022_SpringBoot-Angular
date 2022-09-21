@@ -1,0 +1,14 @@
+<small *ngIf ='check'> Wrong credintials </small>
+<div class="container">
+    
+    <form #frm="ngForm" (ngSubmit)="handleLogin(frm.value)">
+        Username <input class="form-control" type="text" name = "username" [(ngModel)] = "username" > 
+        Password <input  class="form-control" type="password" name = "password" [(ngModel)] = "password" >
+       <br> <button  class="btn btn-primary"> Login </button>
+        <br>
+        You don't have an account? <a routerLink="/signup" >  Signup </a>
+       
+    </form>
+</div>
+
+

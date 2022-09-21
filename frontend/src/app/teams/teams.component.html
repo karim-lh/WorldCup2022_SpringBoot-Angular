@@ -1,0 +1,91 @@
+<div class="modal fade" id="deletemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Delete player</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" layout-align="center center">
+          Do you really want to delete  ? <br>
+        
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-success" (click)="delete(currentTeam.id)" >Yes</button>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="modal fade" id="updatemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update team</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #frm="ngForm" (ngSubmit)="HandleUpdateTeam(frm.value)" ngNativeValidate>
+      <div class="modal-body">
+        <div class="team">
+          <img width="120px" height="80px" src={{currentTeam.flag}}>
+        </div>
+         
+          <br>
+             Choose a new name<br><input  pattern="[A-Za-z]+" required class="form-control"  type="text" id="name" value ="{{ currentTeam.name}}" name="name" ngModel={{currentTeam.name}}><br>
+             Choose a new content <br><input  required type="text" class="form-control" id="content" value ="{{ currentTeam.content}}" name="content" ngModel={{currentTeam.content}}><br>
+             Choose a new number of cups <br><input  required type="number" min="0" class="form-control" id="numbrCups" value ="{{ currentTeam.numbrCups}}" name="numbrCups" ngModel={{currentTeam.numbrCups}}>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-success"  >Yes</button>
+      </div>
+    </form>
+    </div>
+    
+  </div>
+</div>
+<div class="container" > 
+    <br>
+    <div> <input  class="form-control mr-sm-2" type="text" placeholder="Search" [(ngModel)]="fltr" ></div>
+    <table class="table">
+        <thead> 
+            <tr> 
+                <th>Flag</th>
+                <th>Name</th>
+                <th>Content</th>
+                <th>QuartFinal</th>
+                <th>Semi final</th>
+                <th>Quart final</th>
+                <th>Number of cups</th>
+        
+                
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let team of Teams | filter:fltr |orderBy:key "> 
+                <td> <img width="80px" height="50px" src={{team.flag}}></td>
+                <td>{{team.name}}</td>
+                <td>{{team.content}}</td>
+                <td>{{team.quartFinal}}</td>
+                <td>{{team.semiFinal}}</td>
+                <td>{{team.final}}</td>
+                <td>{{team.numbrCups}}</td>
+
+                <td *ngIf="HardcodedAuthenticationService.isUserAdmin()">
+                  <button (click)="setId(team)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#updatemodal">
+                      Update
+                  </button>
+                </td>   
+                <td *ngIf="HardcodedAuthenticationService.isUserAdmin()">
+                    <button (click)="setId(team)" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletemodal">
+                        Delete
+                    </button>
+                </td>
+               
+            </tr>
+        </tbody>
+    </table>
+    </div>
